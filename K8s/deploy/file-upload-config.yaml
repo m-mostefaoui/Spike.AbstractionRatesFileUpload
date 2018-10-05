@@ -1,0 +1,9 @@
+# file-upload configmap
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: file-upload-config
+  namespace: spike-system
+data:
+  PVR_Spike.SharedDirectory: /var/lib/uploads

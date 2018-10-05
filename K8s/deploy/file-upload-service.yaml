@@ -1,0 +1,18 @@
+# file-upload service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: file-upload
+  namespace: spike-system
+  labels:
+    app: file-upload
+spec:
+  type: ClusterIP
+  selector:
+    app: file-upload
+  ports:
+  - protocol: TCP
+    port: 8888
+    targetPort: http-file-upload
+    name: http-file-upload
