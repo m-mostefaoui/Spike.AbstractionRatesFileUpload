@@ -3,7 +3,6 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: file-upload
-  namespace: spike-system
 spec:
   replicas: 1
   template:
@@ -21,5 +20,11 @@ spec:
         - configMapRef:
             name: file-upload-config
         ports:
-        - name: http-file-upload
-          containerPort: 8888
+          - containerPort: 8888
+        volumeMounts:
+          - name: nfs-pvc
+            mountPath: "/mnt"
+      volumes:
+      - name: nfs-pvc
+        persistentVolumeClaim:
+          claimName: nfs

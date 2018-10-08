@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.0-sdk AS build
+FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
@@ -10,8 +10,8 @@ COPY . ./
 
 RUN dotnet publish -c Release -o out
 
-FROM microsoft/dotnet:2.0-runtime AS runtime
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS runtime
 WORKDIR /app
 COPY --from=build /app/out ./
-EXPOSE 8888
+EXPOSE 8080
 ENTRYPOINT ["dotnet", "FileUpload.dll"]

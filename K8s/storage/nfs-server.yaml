@@ -1,3 +1,5 @@
+# deployment
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -26,9 +28,9 @@ spec:
           privileged: true
         volumeMounts:
           - mountPath: /exports
-            name: mypvc
+            name: data
       volumes:
-        - name: mypvc
+        - name: data
           gcePersistentDisk:
             pdName: gce-nfs-disk
             fsType: ext4
