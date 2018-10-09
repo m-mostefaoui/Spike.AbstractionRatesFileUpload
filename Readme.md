@@ -100,8 +100,8 @@ local               shared_vol
 
 Use Postman to upload a file
 
-![alt text](images/upload.png "Upload a file")
+![alt text](images/upload.PNG "Upload a file")
 
 Use Postman to read a file
 
-![alt text](images/download.png "Upload a file")
+![alt text](images/download.PNG "Upload a file")
