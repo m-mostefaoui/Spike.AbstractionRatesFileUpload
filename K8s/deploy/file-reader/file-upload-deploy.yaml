@@ -1,0 +1,30 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: file-reader
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: file-reader
+      labels:
+        app: file-reader
+        version: v1
+    spec:
+      containers:
+      - name: file-reader
+        image: eu.gcr.io/parcel-vision/file-reader:1.0
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: file-reader-config
+        ports:
+          - containerPort: 9999
+        volumeMounts:
+          - name: nfs-pvc
+            mountPath: "/mnt"
+      volumes:
+      - name: nfs-pvc
+        persistentVolumeClaim:
+          claimName: nfs

@@ -1,0 +1,17 @@
+# file-reader service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: file-reader
+  labels:
+    app: file-reader
+spec:
+  type: ClusterIP
+  selector:
+    app: file-reader
+  ports:
+  - protocol: TCP
+    port: 9999
+    targetPort: 9999
+    name: http-file-reader
