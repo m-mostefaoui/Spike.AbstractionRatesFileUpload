@@ -1,0 +1,59 @@
+
+---
+# file-upload configmap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: file-upload-config
+data:
+  PVR_Spike.SharedDirectory: /mnt
+
+---
+# file-upload service
+apiVersion: v1
+kind: Service
+metadata:
+  name: file-upload
+  labels:
+    app: file-upload
+spec:
+  type: ClusterIP
+  selector:
+    app: file-upload
+  ports:
+  - protocol: TCP
+    port: 8888
+    targetPort: 8888
+    name: http-file-upload
+
+---
+# file-upload deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: file-upload
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: file-upload
+      labels:
+        app: file-upload
+        version: v1
+    spec:
+      containers:
+      - name: file-upload
+        image: eu.gcr.io/parcel-vision/file-upload:1.0
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: file-upload-config
+        ports:
+          - containerPort: 8888
+        volumeMounts:
+          - name: test-volume
+            mountPath: "/mnt"
+      volumes:
+      - name: test-volume
+        persistentVolumeClaim:
+          claimName: test-pvc

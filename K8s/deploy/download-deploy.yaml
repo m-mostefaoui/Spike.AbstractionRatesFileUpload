@@ -1,0 +1,58 @@
+---
+# file-reader configmap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: file-reader-config
+data:
+  PVR_Spike.SharedDirectory: "/mnt"
+
+---
+# file-reader service
+apiVersion: v1
+kind: Service
+metadata:
+  name: file-reader
+  labels:
+    app: file-reader
+spec:
+  type: ClusterIP
+  selector:
+    app: file-reader
+  ports:
+  - protocol: TCP
+    port: 9999
+    targetPort: 9999
+    name: http-file-reader
+
+---
+# file-reader deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: file-reader
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: file-reader
+      labels:
+        app: file-reader
+        version: v1
+    spec:
+      containers:
+      - name: file-reader
+        image: eu.gcr.io/parcel-vision/file-reader:1.0
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: file-reader-config
+        ports:
+          - containerPort: 9999
+        volumeMounts:
+          - name: test-volume
+            mountPath: "/mnt"
+      volumes:
+      - name: test-volume
+        persistentVolumeClaim:
+          claimName: test-pvc
