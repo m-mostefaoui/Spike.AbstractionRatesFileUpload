@@ -1,8 +1,0 @@
-# file-upload configmap
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: file-upload-config
-data:
-  PVR_Spike.SharedDirectory: /mnt
