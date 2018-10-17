@@ -28,7 +28,7 @@ Run the following command:
 docker push eu.gcr.io/parcel-vision/file-reader:1.0
 ```
 
-## NFS Server
+## Files Persistence
 
 ### Create Persistent Disk in Google Compute Engine
 
@@ -37,38 +37,28 @@ gcloud compute disks create --size=10GB --zone=europe-west2-a gce-nfs-disk
 ```
 Alternatively, you can create this manually using the GCP UI as well.
 
-### Create NFS Server in GKE
-
-```
-kubectl apply -f nfs-server.yaml
-```
-
-### Create NFS Service
-
-```
-kubectl apply -f nfs-server-service.yaml
-```
-
 ### Create Persistent Volume and Persistent Volume Claims
 
+CD to `K8s/deploy` and apply this configuration by running the following.
+
 ```
-kubect apply -f pv-pvc.yaml
+kubect apply -f storage.yaml
 ```
 
 ## FileUpload application
 
-CD to `K8s/deploy/file-upload` and apply this configuration by running the following.
+CD to `K8s/deploy` and apply this configuration by running the following.
 
 ```
-kubectl apply -f .
+kubectl apply -f upload-deploy.yaml
 ```
 
 ## FileReader application
 
-CD to `K8s/deploy/file-reader` and apply this configuration by running the following.
+CD to `K8s/deploy` and apply this configuration by running the following.
 
 ```
-kubectl apply -f .
+kubectl apply -f download-deploy.yaml
 ```
 
 ## Bonus: running docker on your local machine
